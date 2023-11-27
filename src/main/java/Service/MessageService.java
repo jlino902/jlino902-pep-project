@@ -33,19 +33,19 @@ public class MessageService {
         return messageDAO.getAllMessages();
     }
 
-    public Message getMessagebyId(int id) {
-        return messageDAO.getMessageById(id);
+    public Message getMessagebyId(Message message) {
+        return messageDAO.getMessageById(message);
     }
 
-    public Message deleteMessage(int id) {
-        return messageDAO.deleteMessageById(id);
+    public Message deleteMessage(Message message) {
+        return messageDAO.deleteMessageById(message);
     }
 
     public Message updateMessage(Message message) {
         return messageDAO.updateMessageById(message);
     }
 
-    public List<Message> getAllMessagesByUser(int posted_by) {
-        return messageDAO.getAllMessagesByUser(posted_by);
+    public List<Message> getAllMessagesByUser(Message message) {
+        return messageDAO.getAllMessagesByUser(message);
     }
 }
