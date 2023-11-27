@@ -11,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageDOA {
+public class MessageDAO {
 
     // Create a new message
 
