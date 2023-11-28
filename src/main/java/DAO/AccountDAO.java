@@ -17,20 +17,20 @@ public class AccountDAO {
         public Account createAccount(Account account) {
             Connection connection = ConnectionUtil.getConnection();
             try {
-                String sql = "INSERT INTO Account (username, password) VALES (?, ?);";
+                String sql = "INSERT INTO Account (username, password) VALUES (?, ?)";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
     
                 preparedStatement.setString(1, account.getUsername());
                 preparedStatement.setString(2, account.getPassword());
                 preparedStatement.executeUpdate();
-                ResultSet pkeyResultSet = preparedStatement.getGeneratedKeys();
-                if(pkeyResultSet.next()) {
-                    int generated_account_id = (int) pkeyResultSet.getInt(1);
-                    return new Account(generated_account_id, pkeyResultSet.getString(2), pkeyResultSet.getString(3));
+                ResultSet rs = preparedStatement.getGeneratedKeys();
+                while(rs.next()) {
+                    int generated_account_id = (int) rs.getInt(1);
+                    return new Account(generated_account_id, account.getUsername(), account.getPassword());
                 }
             }
                 catch(SQLException e) {
-                    System.out.println(e.getMessage());
+                    System.out.println("Error in the createAccount method of DAO: " + e.getMessage());
                 }
                 return null;
         }
@@ -38,7 +38,7 @@ public class AccountDAO {
         public Account userLogin(Account account) {
             Connection connection = ConnectionUtil.getConnection();
             try {
-                String sql = "SELECT username, password FROM Account WHERE username = ? AND password = ?;";
+                String sql = "SELECT * FROM Account WHERE username = ? AND password = ?";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
     
                 preparedStatement.setString(1, account.getUsername());
@@ -61,7 +61,7 @@ public class AccountDAO {
         public Account verifyAccount(int posted_by) {
             Connection connection = ConnectionUtil.getConnection();
             try {
-                String sql = "SELECT username, password FROM Account WHERE username = ?;";
+                String sql = "SELECT username, password FROM Account WHERE username = ?";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
     
                 preparedStatement.setInt(1, posted_by);

@@ -16,7 +16,7 @@ public class AccountService {
     }
 
     public Account addAccount(Account account) {
-        if(!account.getUsername().isEmpty() && account.getPassword().length() >= 4 && accountDAO.userLogin(account) == null) {
+        if(!account.getUsername().isBlank() && account.getPassword().length() > 4 && accountDAO.userLogin(account) == null) {
             return accountDAO.createAccount(account);
         }
         else {
@@ -25,9 +25,11 @@ public class AccountService {
     }
 
     public Account accountLogin(Account account) {
-        if(accountDAO.userLogin(account) != null) {
+        if(accountDAO.userLogin(account) == null) {
+            return null;
+        }
+        else {
             return accountDAO.userLogin(account);
         }
-        return null;
     }
 }
