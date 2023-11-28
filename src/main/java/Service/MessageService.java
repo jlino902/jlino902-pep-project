@@ -1,16 +1,12 @@
 package Service;
 
 import Model.Message;
-import Model.Account;
 import DAO.MessageDAO;
-import DAO.AccountDAO;
 
 import java.util.List;
-import java.util.ArrayList;
 
 public class MessageService {
     private MessageDAO messageDAO;
-    private AccountDAO accountDAO;
 
     //Constructors
     public MessageService() {
@@ -38,19 +34,20 @@ public class MessageService {
     }
 
     public Message deleteMessage(int message_id) {
-        return messageDAO.deleteMessageById(message_id);
+        return messageDAO.getMessageById(message_id);
     }
 
-    public Message updateMessage(int message_id, String message_text) {
-        if(messageDAO.getMessageById(message_id) != null && message_text.length() < 255 && message_text != null) {
-            return messageDAO.updateMessageById(message_id, message_text);
+    public Message updateMessage(int message_id, Message message) {
+        if(messageDAO.getMessageById(message_id) != null && message.getMessage_text().length() < 255 && !message.getMessage_text().isBlank()) {
+            return messageDAO.updateMessageById(message_id, message);
         }
         else {
             return null;
         }
     }
 
-    public List<Message> getAllMessagesByUser(Message message) {
-        return messageDAO.getAllMessagesByUser(message);
+    public List<Message> getAllMessagesByUser(int account_id) {
+        System.out.println("In the service layer. This is the return from getAllMessagesByUser: " + messageDAO.getAllMessagesByUser(account_id));
+        return messageDAO.getAllMessagesByUser(account_id);
     }
 }

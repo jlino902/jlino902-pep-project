@@ -76,9 +76,12 @@ public class SocialMediaController {
 
     }
     private void newMessageHandler(Context ctx) throws JsonProcessingException {
+        System.out.println("First line in Controller for createMessage. ctx: " + ctx);
         ObjectMapper mapper = new ObjectMapper();
         Message message = mapper.readValue(ctx.body(), Message.class);
+        System.out.println("Now within the Controller. Message: " + message);
         Message newMessage = messageService.createMessage(message);
+        System.out.println("Again within the Controller. newMessage: " + newMessage);
         if (newMessage == null) {
             ctx.status(400);
         }
@@ -95,32 +98,56 @@ public class SocialMediaController {
     private void messagesByIdHandler(Context ctx) throws JsonProcessingException{
         int message_id = Integer.parseInt(ctx.pathParam("message_id"));
         Message retrievedMessage = messageService.getMessagebyId(message_id);
-        ctx.json(retrievedMessage);
-        ctx.status(200);
+        if (retrievedMessage == null) {
+            ctx.status(200);
+        }
+        else {
+            ctx.json(retrievedMessage);
+            ctx.status(200);
+        }
 
     }
-    private void deleteMessageByIdHandler(Context ctx){
+    private void deleteMessageByIdHandler(Context ctx) throws JsonProcessingException{
+        System.out.println("First line in Controller. ctx: " + ctx);
         int message_id = Integer.parseInt(ctx.pathParam("message_id"));
-        ctx.json(messageService.deleteMessage(message_id));
-        ctx.status(200);
+        System.out.println("Within the Controller. Here is the int value: " + message_id);
+        Message deletedMessage = messageService.deleteMessage(message_id);
+        if (deletedMessage == null) {
+            ctx.status(200);
+        }
+        else {
+            ctx.json(deletedMessage);
+            ctx.status(200);
+        }
 
     }   
     private void updateMessagesByIdHandler(Context ctx) throws JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        Message translatedMessage = mapper.readValue(ctx.body(), Message.class);
         int message_id = Integer.parseInt(ctx.pathParam("message_id"));
-        Message message = messageService.updateMessage(message_id, ctx.pathParam("message_text"));
+        System.out.println("Within the controller. This is the int assuming there's an id provided: " + message_id);
+        System.out.println("This is the ctx translated into a message within the Controller: " + translatedMessage);
+        Message message = messageService.updateMessage(message_id, translatedMessage);
+        System.out.println("This is the processed message after putting it through the service: " + message);
         if(message == null) {
             ctx.status(400);
         }
         else {
-            ctx.json(messageService.updateMessage(message_id, ctx.pathParam("message_text")));
+            ctx.json(message);
         }
     }
 
     private void getMessagesByUser(Context ctx) throws JsonProcessingException{
-        ObjectMapper mapper = new ObjectMapper();
-        Message message = mapper.readValue(ctx.body(), Message.class);
-        ctx.json(messageService.getAllMessagesByUser(message));
-        ctx.status(200);
+        System.out.println("In the controller. Here's the ctx: " + ctx.pathParamMap());
+        int posted_by = Integer.parseInt(ctx.pathParam("account_id"));
+        System.out.println("In the controller. This is the posted_by id: " + posted_by);
+        if (messageService.getAllMessagesByUser(posted_by) == null) {
+            ctx.status(200);
+        }
+        else {
+            ctx.json(messageService.getAllMessagesByUser(posted_by));
+            ctx.status(200);
+        }
     }
 
 

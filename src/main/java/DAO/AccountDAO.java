@@ -8,8 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AccountDAO {
     // Process new user registerations
@@ -58,13 +56,13 @@ public class AccountDAO {
                 return null;
         }
 
-        public Account verifyAccount(int posted_by) {
+        public Account verifyAccount(int account_id) {
             Connection connection = ConnectionUtil.getConnection();
             try {
-                String sql = "SELECT username, password FROM Account WHERE username = ?";
+                String sql = "SELECT username, password FROM Account WHERE account_id = ?";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
     
-                preparedStatement.setInt(1, posted_by);
+                preparedStatement.setInt(1, account_id);
                 
                 ResultSet rs = preparedStatement.executeQuery();
                 while(rs.next()) {
