@@ -33,6 +33,7 @@ public class AccountDAO {
                 return null;
         }
 
+        // Search for the user by username and password
         public Account userLogin(Account account) {
             Connection connection = ConnectionUtil.getConnection();
             try {
@@ -56,6 +57,7 @@ public class AccountDAO {
                 return null;
         }
 
+        // Search for active user by the given account ID
         public Account verifyAccount(int account_id) {
             Connection connection = ConnectionUtil.getConnection();
             try {

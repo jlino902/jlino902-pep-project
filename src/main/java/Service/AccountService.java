@@ -14,7 +14,8 @@ public class AccountService {
     public AccountService(AccountDAO accountDAO) {
         this.accountDAO = accountDAO;
     }
-
+    
+    // Utilize the AccountDAO to add a user account
     public Account addAccount(Account account) {
         if(!account.getUsername().isBlank() && account.getPassword().length() > 4 && accountDAO.userLogin(account) == null) {
             return accountDAO.createAccount(account);
@@ -24,6 +25,7 @@ public class AccountService {
         }
     }
 
+    // Allows the user to 'login' by search for the username and password
     public Account accountLogin(Account account) {
         if(accountDAO.userLogin(account) == null) {
             return null;

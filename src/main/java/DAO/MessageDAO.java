@@ -63,7 +63,7 @@ public class MessageDAO {
         return messages;
     }
 
-    //Retrieve a message by its ID
+    //Retrieve a message by the ID
 
     public Message getMessageById(int message_id) {
         Connection connection = ConnectionUtil.getConnection();
@@ -86,7 +86,7 @@ public class MessageDAO {
         return null;
     }
 
-    //Delete a message by its ID
+    //Delete a message by its associated ID
 
     public void deleteMessageById(int message_id) {
         Connection connection = ConnectionUtil.getConnection();
@@ -103,7 +103,7 @@ public class MessageDAO {
         }
     }
 
-    //Update a message identified by its ID
+    //Update a message by its ID
 
     public Message updateMessageById(int message_id, Message message) {
         Connection connection = ConnectionUtil.getConnection();
@@ -123,7 +123,7 @@ public class MessageDAO {
         return null;
     }
 
-    //Retrieve all messages by a particular user
+    //Retrieve all messages from a particular user
 
     public List<Message> getAllMessagesByUser(int account_id) {
         System.out.println("In the DAO layer. This is the recieved account_id: " + account_id);
